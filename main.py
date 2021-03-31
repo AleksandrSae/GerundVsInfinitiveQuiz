@@ -6,15 +6,16 @@ from random import random
 answers = []
 right_answer = ""
 
+window = Tk()
 
 def check(el):
     global answers
     global right_answer
     global verb
-    
+
     #print(right_answer)
     #print(verb)
-    
+
     #for i in answers:
     #    print(i.get())
 
@@ -23,7 +24,7 @@ def check(el):
 
     answer_gerund = answers[0].get()
     #print(answer_gerund)
-    
+
     answer_infinitive = answers[1].get()
     #print(answer_infinitive)
 
@@ -39,10 +40,10 @@ def check(el):
         win = True
 
     result_label = Label(el, text=f"{win}, \"{verb}\" используется с {right_answer}").pack()
-    
+
     btn_next = Button(el, text="Next >>", command=lambda e=el: ask_question(e)).pack()
 
-       
+
 
 frm = LabelFrame(text="Generate screen")
 frm.pack()
@@ -139,7 +140,7 @@ def ask_question(el):
     global answers
     global right_answer
     global verb
-        
+
     for widget in el.winfo_children():
         widget.destroy()
 
@@ -152,11 +153,11 @@ def ask_question(el):
     k1 = len(gerund)/(len(infinitive) + len(both) + len(gerund))
 
     #print ("K1=", k1)
-    
+
     k2 = len(infinitive)/(len(gerund) + len(both) + len(infinitive))
 
     #print ("K2=", k2)
-    
+
     k3 = 1 - k1 - k2
 
     #print ("K3=", k3)
@@ -190,7 +191,7 @@ def ask_question(el):
     btn_next = Button(el, text="Next >>", command=lambda e=el: check(e)).pack()
 
 
-    
+
 def all_done(el):
     for widget in el.winfo_children():
         widget.destroy()
@@ -198,3 +199,6 @@ def all_done(el):
     all_done_label = Label(el, text=f"Вопросы закончились, поздравляю").pack()
 
     btn_next = Button(el, text="Next >>", command=lambda e=el: check(e)).pack()
+
+
+window.mainloop()
