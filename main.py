@@ -6,49 +6,6 @@ from random import random
 answers = []
 right_answer = ""
 
-window = Tk()
-
-def check(el):
-    global answers
-    global right_answer
-    global verb
-
-    #print(right_answer)
-    #print(verb)
-
-    #for i in answers:
-    #    print(i.get())
-
-    for widget in el.winfo_children():
-        widget.destroy()
-
-    answer_gerund = answers[0].get()
-    #print(answer_gerund)
-
-    answer_infinitive = answers[1].get()
-    #print(answer_infinitive)
-
-    win = False
-
-    if right_answer == "Gerund" and answer_gerund == True and answer_infinitive == False:
-        win = True
-
-    if right_answer == "Infinitive" and answer_gerund == False and answer_infinitive == True:
-        win = True
-
-    if right_answer == "Both" and answer_gerund == True and answer_infinitive == True:
-        win = True
-
-    result_label = Label(el, text=f"{win}, \"{verb}\" используется с {right_answer}").pack()
-
-    btn_next = Button(el, text="Next >>", command=lambda e=el: ask_question(e)).pack()
-
-
-
-frm = LabelFrame(text="Generate screen")
-frm.pack()
-
-
 gerund = [
     "admit",
     "appreciate",
@@ -128,6 +85,57 @@ both = [
     "start",
     "intend"]
 
+window = Tk()
+
+def check(el):
+    global answers
+    global right_answer
+    global verb
+
+    global gerund
+    global infinitive
+    global both
+
+    #print(right_answer)
+    #print(verb)
+
+    #for i in answers:
+    #    print(i.get())
+
+    for widget in el.winfo_children():
+        widget.destroy()
+
+    answer_gerund = answers[0].get()
+    #print(answer_gerund)
+
+    answer_infinitive = answers[1].get()
+    #print(answer_infinitive)
+
+    win = False
+
+    if right_answer == "Gerund" and answer_gerund == True and answer_infinitive == False:
+        win = True
+
+    if right_answer == "Infinitive" and answer_gerund == False and answer_infinitive == True:
+        win = True
+
+    if right_answer == "Both" and answer_gerund == True and answer_infinitive == True:
+        win = True
+
+    if not win:
+        if right_answer == "Gerund":
+            gerund.insert(0, verb)
+        if right_answer == "Infinitive":
+            infinitive.insert(0, verb)
+        if right_answer == "Both":
+            both.insert(0, verb)
+
+    result_label = Label(el, text=f"{win}, \"{verb}\" используется с {right_answer}").pack()
+
+    btn_next = Button(el, text="Next >>", command=lambda e=el: ask_question(e)).pack()
+
+frm = LabelFrame(text="Generate screen")
+frm.pack()
 
 def first_screen(el):
     Label(el, text='Welcome to my quiz!\n Press "Start" to continue...').pack()
@@ -157,10 +165,6 @@ def ask_question(el):
     k2 = len(infinitive)/(len(gerund) + len(both) + len(infinitive))
 
     #print ("K2=", k2)
-
-    k3 = 1 - k1 - k2
-
-    #print ("K3=", k3)
     item = ""
 
     right_answer = ""
