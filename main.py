@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter.ttk import *
+from tkinter import font
 
 from random import random
 
@@ -124,13 +125,16 @@ def check(el):
 
     if not win:
         if right_answer == "Gerund":
-            gerund.insert(0, verb)
+            gerund.append(verb)
+            #print(gerund)
         if right_answer == "Infinitive":
-            infinitive.insert(0, verb)
+            infinitive.append(verb)
+            #print(infinitive)
         if right_answer == "Both":
-            both.insert(0, verb)
+            both.append(verb)
+            #print(both)
 
-    result_label = Label(el, text=f"{win}, \"{verb}\" используется с {right_answer}").pack()
+    result_label = Label(el, text=f"{win}, \"{verb}\" используется с {right_answer}", font="Helvetica 18").pack()
 
     btn_next = Button(el, text="Next >>", command=lambda e=el: ask_question(e)).pack()
 
@@ -164,19 +168,20 @@ def ask_question(el):
 
     k2 = len(infinitive)/(len(gerund) + len(both) + len(infinitive))
 
+    #k3 = len(both)/(len(gerund) + len(both) + len(infinitive))
     #print ("K2=", k2)
     item = ""
 
     right_answer = ""
-    if r <= k1:
+    if r <= k1 and r > 0:
         item = gerund.pop()
         right_answer = "Gerund"
         #print("K1 - gerund")
-    elif r > k2 and r <= k1 + k2:
+    elif r > k1 and r <= k1 + k2:
         item = infinitive.pop()
         right_answer = "Infinitive"
         #print("K2 - infinitive")
-    else:
+    elif r > k1 + k2 and r < 1:
         item = both.pop()
         right_answer = "Both"
         #print("K3 - infinitive")
@@ -184,7 +189,7 @@ def ask_question(el):
     #print(right_answer)
 
     verb = item
-    question = Label(el, text=f"\"{item}\" используется с герундием (+ing), инфинитивом (to + V) или и тем и другим ?").pack()
+    question = Label(el, text=f"\"{item}\" используется с герундием (+ing), инфинитивом (to + V) или и тем и другим ?", font="Helvetica 18").pack()
 
     answers.clear()
     answers.append(BooleanVar())
